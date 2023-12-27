@@ -7,22 +7,24 @@ import { FC, useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+type InstagramDisplayResource = {
+  src: string;
+  config_width: number;
+  config_height: number;
+};
+
 type InstagramImage = {
-  type: string;
-  display_resources: {
-    src: string;
-    config_width: number;
-    config_height: number;
-  }[];
+  type: "image";
+  display_resources: InstagramDisplayResource[];
 };
 
 type InstagramVideo = {
-  type: string;
+  type: "video";
   dimensions: {
     height: number;
     width: number;
   };
-  display_url: string;
+  display_resources: InstagramDisplayResource[];
   video_url: string;
 };
 
@@ -46,10 +48,10 @@ const getPreviewProps = (item: InstagramMedia) => {
     };
   } else if (isInstagramVideo(item)) {
     return {
-      src: item.display_url,
+      src: item.display_resources[item.display_resources.length - 1].src,
       url: item.video_url,
-      width: item.dimensions.width,
-      height: item.dimensions.height,
+      width: item.display_resources[item.display_resources.length - 1].config_width,
+      height: item.display_resources[item.display_resources.length - 1].config_height,
     };
   } else {
     throw new Error("Invalid item type");
