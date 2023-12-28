@@ -1,81 +1,58 @@
 "use client";
 
-import { saveAs } from "file-saver";
 import Image from "next/image";
-import { FC, useState } from "react";
-// import { mockInstagramSidecar } from "../mocks";
+import { FC, useEffect, useState } from "react";
+import {
+  findHighestQualityInstagramDisplayResource,
+  findHighestQualityTwitterVideo,
+  isInstagramImage,
+  isInstagramVideo,
+  isTwitterPhoto,
+  isTwitterVideo,
+} from "../utils";
+// import { mockTwitterVideo } from "../mocks";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-type InstagramDisplayResource = {
-  src: string;
-  config_width: number;
-  config_height: number;
-};
-
-type InstagramImage = {
-  type: "image";
-  display_resources: InstagramDisplayResource[];
-};
-
-type InstagramVideo = {
-  type: "video";
-  dimensions: {
-    height: number;
-    width: number;
-  };
-  display_resources: InstagramDisplayResource[];
-  video_url: string;
-};
-
-type InstagramMedia = InstagramImage | InstagramVideo;
-
-const isInstagramImage = (item: InstagramMedia): item is InstagramImage => {
-  return item.type === "image";
-};
-
-const isInstagramVideo = (item: InstagramMedia): item is InstagramVideo => {
-  return item.type === "video";
-};
-
-const getPreviewProps = (item: InstagramMedia) => {
+const getPreviewProps = (item: Media) => {
   if (isInstagramImage(item)) {
+    const resource = findHighestQualityInstagramDisplayResource(item);
     return {
-      src: item.display_resources[item.display_resources.length - 1].src,
-      url: item.display_resources[item.display_resources.length - 1].src,
-      width: item.display_resources[item.display_resources.length - 1].config_width,
-      height: item.display_resources[item.display_resources.length - 1].config_height,
+      src: resource.src,  // TODO: get the highest quality
+      url: resource.src,
+      width: resource.config_width,
+      height: resource.config_height,
     };
   } else if (isInstagramVideo(item)) {
+    const resource = findHighestQualityInstagramDisplayResource(item);
     return {
-      src: item.display_resources[item.display_resources.length - 1].src,
+      src: resource.src,
       url: item.video_url,
-      width: item.display_resources[item.display_resources.length - 1].config_width,
-      height: item.display_resources[item.display_resources.length - 1].config_height,
+      width: resource.config_width,
+      height: resource.config_height,
+    };
+  } else if (isTwitterPhoto(item)) {
+    return {
+      src: item.original_media_url_https,
+      url: item.original_media_url_https,
+      width: item.original_info.width,
+      height: item.original_info.height,
+    };
+  } else if (isTwitterVideo(item)) {
+    const variant = findHighestQualityTwitterVideo(item);
+    return {
+      src: item.original_media_url_https,
+      url: variant.url,
+      width: item.original_info.width,
+      height: item.original_info.height,
     };
   } else {
     throw new Error("Invalid item type");
   }
 };
 
-const saveUrl = (url: string) => {
-  const match = /.+\/(?<filename>\w+.[a-zA-Z0-9]+)(\?.*)?/.exec(url);
-  if (!match) {
-    throw new Error("Invalid URL");
-  }
-  const filename = match.groups?.filename;
-  if (!filename) {
-    throw new Error("Invalid URL");
-  }
-  saveAs(url, filename);
-  // const a = document.createElement('a');
-  // a.href = url;
-  // a.download = filename;
-  // a.click();
-}
-
 type ItemCardProps = {
-  item: InstagramMedia;
+  item: Media;
 };
 
 const ItemCard: FC<ItemCardProps> = ({ item }) => {
@@ -107,12 +84,12 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
           objectFit="contain"
         />
       )}
-      <button
+      <div className="text-slate-500 text-xs">{width}x{height}</div>
+      <a
         className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
-        onClick={() => {
-          saveUrl(url);
-        }}
-      >Download {isImage ? "photo" : "video"}</button>
+        href={url}
+        target="_blank"
+      >Open {isImage ? "photo" : "video"}</a>
     </li>
   )
 };
@@ -120,10 +97,10 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
 export default function Home() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<InstagramMedia[]>([]);
+  const [result, setResult] = useState<Media[]>([]);
 
   // useEffect(() => {
-  //   setResult(mockInstagramSidecar);
+  //   setResult(mockTwitterVideo);
   // }, []);
 
   return (
@@ -153,6 +130,10 @@ export default function Home() {
                 <button
                   className="absolute top-1.5 right-2 text-white bg-slate-400 hover:bg-slate-500 border 
                   border-slate-400 rounded-md px-2 p-1 text-sm"
+                  onClick={() => {
+                    navigator.clipboard.readText()
+                      .then((text) => setInput(text));
+                  }}
                 >Paste</button>
               </div>
               <button
@@ -179,22 +160,16 @@ export default function Home() {
           </div>
         </div>
         {isLoading ? (
-          <div className="mt-4 container mx-auto flex flex-col gap-4 items-center">
-            <Image className="mt-8" src="/octopus_cat.gif" alt="Loading" width={64} height={64} />
-            <div className="ml-3 mb-8 text-slate-400">Searching for photos and videos...</div>
+          <div className="mt-4 container mx-auto flex flex-col gap-2 sm:gap-3 items-center">
+            <div className="w-[32px] sm:w-[48px]">
+              <Image className="mt-8" src="/mona-loading-default-c3c7aad1282f.gif" alt="Loading" width={384} height={384} />
+            </div>
+            <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Searching for photos and videos...</div>
           </div>
         ) : result.length > 0 && (
           <div className="mt-4 container mx-auto flex flex-col gap-4 items-center">
-            <div>
-              <button
-                className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
-                onClick={() => {
-                  result.forEach((item) => {
-                    const { url } = getPreviewProps(item);
-                    saveUrl(url);
-                  });
-                }}
-              >Download all</button>
+            <div className="text-sm sm:text-base">
+              The photos are loaded with the highest quality. Tap to open and download the photo or video.
             </div>
             <ul className="flex flex-col gap-4 items-center">{result.map((item, index) => (
               <ItemCard key={index} item={item} />
