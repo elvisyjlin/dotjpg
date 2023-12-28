@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.1] - 2023-12-29
+
+- Twitter support for tweets.
+
 ## [0.1.0] - 2023-12-27
 
 ### Added
