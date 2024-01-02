@@ -1,5 +1,6 @@
 # jpegs
 
 Download photos and videos from
-* Instagram (post and reel)
 * X / Twitter (tweet)
+* Instagram (post and reel)
+* Threads (post)
