@@ -1,16 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import {
   findHighestQualityInstagramDisplayResource,
+  findHighestQualityThreadsImage,
+  findHighestQualityThreadsVideo,
   findHighestQualityTwitterVideo,
   isInstagramImage,
   isInstagramVideo,
+  isThreadsImage,
+  isThreadsVideo,
   isTwitterPhoto,
   isTwitterVideo,
 } from "../utils";
-// import { mockTwitterVideo } from "../mocks";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -30,6 +33,23 @@ const getPreviewProps = (item: Media) => {
       url: item.video_url,
       width: resource.config_width,
       height: resource.config_height,
+    };
+  } else if (isThreadsImage(item)) {
+    const candidate = findHighestQualityThreadsImage(item);
+    return {
+      src: candidate.url,
+      url: candidate.url,
+      width: candidate.width,
+      height: candidate.height,
+    };
+  } else if (isThreadsVideo(item)) {
+    const imageCandidate = findHighestQualityThreadsImage(item);
+    const videoCandidate = findHighestQualityThreadsVideo(item);
+    return {
+      src: imageCandidate.url,
+      url: videoCandidate.url,
+      width: imageCandidate.width,
+      height: imageCandidate.height,
     };
   } else if (isTwitterPhoto(item)) {
     return {
@@ -100,7 +120,7 @@ export default function Home() {
   const [result, setResult] = useState<Media[]>([]);
 
   // useEffect(() => {
-  //   setResult(mockTwitterVideo);
+  //   setResult(mockThreadsVideo);
   // }, []);
 
   return (
@@ -111,10 +131,11 @@ export default function Home() {
       <div className="flex flex-col">
         <div className="pt-8 pb-10 sm:pb-20 w-full bg-slate-100">
           <div className="container mx-auto flex flex-col items-center gap-3">
-            <ul className="grid grid-cols-2 border border-slate-100 rounded-md divide-x divide-slate-100 
-            text-white bg-slate-300">
-              <li className="text-center px-4 py-1">Instagram</li>
-              <li className="text-center px-4 py-1">Twitter</li>
+            <ul className="grid grid-cols-3 border border-slate-100 rounded-md divide-x divide-slate-100 
+            text-white bg-slate-300 text-sm sm:text-base">
+              <li className="text-center px-2 sm:px-4 py-1">Twitter</li>
+              <li className="text-center px-2 sm:px-4 py-1">Instagram</li>
+              <li className="text-center px-2 sm:px-4 py-1">Threads</li>
             </ul>
             <h1 className="mt-4 sm:mt-12 text-3xl font-bold">jpegs</h1>
             <p className="text-slate-600">Download photos and videos</p>

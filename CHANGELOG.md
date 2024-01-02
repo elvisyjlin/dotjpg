@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.2] - 2023-01-02
+
+- Threads support for posts.
+
 ## [0.1.1] - 2023-12-29
 
 - Twitter support for tweets.

@@ -23,6 +23,43 @@ type InstagramVideo = {
 
 type InstagramMedia = InstagramImage | InstagramVideo;
 
+type ThreadsImage = {
+    platform: "threads";
+    type: "image";
+    original_width: number;
+    original_height: number;
+    image_versions2: {
+        candidates: {
+            url: string;
+            width: number;
+            height: number;
+            "__typename": string;
+        }[];
+    };
+};
+
+type ThreadsVideo = {
+    platform: "threads";
+    type: "video";
+    original_width: number;
+    original_height: number;
+    video_versions: {
+        type: number;
+        url: string;
+        "__typename": string;
+    }[];
+    image_versions2: {
+        candidates: {
+            url: string;
+            width: number;
+            height: number;
+            "__typename": string;
+        }[];
+    };
+};
+
+type ThreadsMedia = ThreadsImage | ThreadsVideo;
+
 type TwitterPhoto = {
     platform: "twitter";
     type: "image";
@@ -61,4 +98,4 @@ type TwitterVideo = {
 
 type TwitterMedia = TwitterPhoto | TwitterVideo;
 
-type Media = InstagramMedia | TwitterMedia;
+type Media = InstagramMedia | ThreadsMedia | TwitterMedia;
