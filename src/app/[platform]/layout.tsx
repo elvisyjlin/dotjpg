@@ -1,4 +1,4 @@
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { capitalize } from '@/utils';
 import '../globals.css';
@@ -6,14 +6,10 @@ import '../globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 type Props = {
-  params: { platform: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: { platform: string };
 };
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const platform = params.platform;
   return {
     title: capitalize(platform) + " Downloader",

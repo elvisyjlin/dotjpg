@@ -1,18 +1,15 @@
-"use client";
-
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { SearchSection } from "@/components/sections";
 
-export async function getStatisPaths() {
-  return {
-    paths: [
-      { params: { platform: "instagram" } },
-      { params: { platform: "threads" } },
-      { params: { platform: "twitter" } },
-    ],
-    fallback: false,
-  }
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return [
+    { platform: "instagram" },
+    { platform: "threads" },
+    { platform: "twitter" },
+  ];
 }
 
 type Props = {
