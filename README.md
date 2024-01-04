@@ -1,4 +1,4 @@
-# jpegs
+# .jpg
 
 Download photos and videos from
 * X / Twitter (tweet)

@@ -127,7 +127,7 @@ export const SearchSection: FC<SearchSectionProps> = ({ selectedPlatform }) => {
   //   setResult(mockThreadsVideo);
   // }, []);
 
-  const title = selectedPlatform ? `${capitalize(selectedPlatform)} Downloader` : "jpegs";
+  const title = selectedPlatform ? `${capitalize(selectedPlatform)} Downloader` : ".jpg";
   const description = selectedPlatform ? `Download ${capitalize(selectedPlatform)} photos and videos` : "Download photos and videos";
 
   return (
@@ -178,7 +178,7 @@ export const SearchSection: FC<SearchSectionProps> = ({ selectedPlatform }) => {
             <button
               className="text-white bg-slate-400 hover:bg-slate-500 rounded-md px-4 p-2"
               onClick={() => {
-                const url = selectedPlatform ? new URL(API_URL + "/" + selectedPlatform) : new URL(API_URL + "/jpegs");
+                const url = selectedPlatform ? new URL(API_URL + "/" + selectedPlatform) : new URL(API_URL + "/auto");
                 url.searchParams.append("url", input);
                 setIsLoading(true);
                 fetch(url.toString())

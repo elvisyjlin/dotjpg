@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.3] - 2023-01-04
+
+- Rebrand as ".jpg".
+- Specific downloader for each platform.
+
 ## [0.1.2] - 2023-01-02
 
 - Threads support for posts.

@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { capitalize } from '@/utils';
 import '../globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 type Props = {
   params: { platform: string }
