@@ -1,11 +1,15 @@
 # Change Log
 
-## [0.1.3] - 2023-01-04
+## [0.1.4] - 2024-01-07
+
+- Google Analytics.
+
+## [0.1.3] - 2024-01-04
 
 - Rebrand as ".jpg".
 - Specific downloader for each platform.
 
-## [0.1.2] - 2023-01-02
+## [0.1.2] - 2024-01-02
 
 - Threads support for posts.
 
