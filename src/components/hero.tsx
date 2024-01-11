@@ -10,11 +10,11 @@ import ItemList from "./itemlist";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-type SearchSectionProps = {
+type HeroProps = {
   selectedPlatform?: string;
 }
 
-export const SearchSection: FC<SearchSectionProps> = ({ selectedPlatform }) => {
+export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<Media[]>([]);
