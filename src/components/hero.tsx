@@ -3,10 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
-import {
-  capitalize,
-} from "../utils";
-import ItemList from "./itemlist";
+import { capitalize } from "../utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,11 +14,6 @@ type HeroProps = {
 export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<Media[]>([]);
-
-  // useEffect(() => {
-  //   setResult(mockThreadsVideo);
-  // }, []);
 
   const title = selectedPlatform ? `${capitalize(selectedPlatform)} Downloader` : ".jpg";
   const description = selectedPlatform ? `Download ${capitalize(selectedPlatform)} photos and videos` : "Download photos and videos";
@@ -84,7 +76,7 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
                   })
                   .then((data) => {
                     console.log(data);
-                    setResult(data["result"]["media_source"]);
+                    window.location.href = data["result"]["result_url"];
                   })
                   .finally(() => {
                     setIsLoading(false);
@@ -94,15 +86,13 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           </div>
         </div>
       </div>
-      {isLoading ? (
+      {isLoading && (
         <div className="mt-4 container mx-auto flex flex-col gap-2 sm:gap-3 items-center">
           <div className="w-[32px] sm:w-[48px]">
             <Image className="mt-8" src="/mona-loading-default-c3c7aad1282f.gif" alt="Loading" width={384} height={384} />
           </div>
           <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Searching for photos and videos...</div>
         </div>
-      ) : result.length > 0 && (
-        <ItemList items={result} />
       )}
     </div>
   );
