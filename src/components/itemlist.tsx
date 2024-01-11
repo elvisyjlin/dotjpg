@@ -83,7 +83,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
           width={width}
           height={height}
           alt="Item Card"
-          objectFit="contain"
+          style={{ objectFit: "contain" }}
         />
       ) : (
         // <video
@@ -98,7 +98,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
           width={width}
           height={height}
           alt="Item Card"
-          objectFit="contain"
+          style={{ objectFit: "contain" }}
         />
       )}
       <div className="text-slate-500 text-xs">{width}x{height}</div>
