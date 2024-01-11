@@ -1,11 +1,9 @@
-"use client";
-
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { capitalize } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -99,9 +97,7 @@ const PostCardContent: FC<PostCardProps> = ({ post }) => {
           <Image
             src={coverPhotoProps.src}
             alt="Cover"
-            style={{
-              objectFit: "cover",
-            }}
+            style={{ objectFit: "cover" }}
             fill
           />
         )}
@@ -148,15 +144,25 @@ const PostGridView: FC<PostGridViewProps> = ({ posts }) => {
   );
 }
 
-export default function Dashboard() {
-  const [posts, setPosts] = useState<Post[]>([]);
+async function getData(start_date?: string): Promise<Post[]> {
+  let url = `${API_URL}/feeds`;
+  if (start_date) {
+    url += `?start_date=${start_date}`;
+  }
+  return fetch(url)
+    .then((res) => res.json())
+    .then((data) => data["result"]);
+  // return mockFeeds;
+}
 
-  useEffect(() => {
-    fetch(API_URL + "/api/feeds")
-      .then((response) => response.json())
-      .then((data) => setPosts(data["result"]));
-    // setPosts(mockFeeds);
-  }, []);
+type Props = {
+  searchParams?: {
+    start_date?: string;
+  };
+};
+
+export default async function Dashboard(params: Props) {
+  const posts = await getData(params.searchParams?.start_date);
 
   return (
     <main>
