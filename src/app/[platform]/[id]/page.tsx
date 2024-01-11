@@ -1,6 +1,7 @@
 import Footer from "@/components/footer";
 import ItemList from "@/components/itemlist";
 import Navbar from "@/components/navbar";
+import { capitalize } from "@/utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -24,6 +25,7 @@ export default async function Downloader({ params }: Props) {
   return (
     <main>
       <Navbar />
+      <h1 className="text-2xl text-center font-medium">{`${capitalize(platform)} Downloader`}</h1>
       <ItemList items={items} />
       <Footer />
     </main>

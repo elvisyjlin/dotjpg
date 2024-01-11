@@ -116,8 +116,6 @@ type ItemListProps = {
 };
 
 const ItemList: FC<ItemListProps> = ({ items }) => {
-  console.log("OOPS")
-  console.log(items)
   return (
     <div className="mt-4 container mx-auto flex flex-col gap-4 items-center">
       <div className="text-sm sm:text-base">
