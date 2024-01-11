@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { capitalize } from "../utils";
+import MessageModal from "./modal";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,6 +15,8 @@ type HeroProps = {
 export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const title = selectedPlatform ? `${capitalize(selectedPlatform)} Downloader` : ".jpg";
   const description = selectedPlatform ? `Download ${capitalize(selectedPlatform)} photos and videos` : "Download photos and videos";
@@ -76,7 +79,12 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
                   })
                   .then((data) => {
                     console.log(data);
-                    window.location.href = data["result"]["result_url"];
+                    if (data["error"]) {
+                      setErrorMessage(data["error"]);
+                      setIsOpen(true);
+                    } else {
+                      window.location.href = data["result"]["result_url"];
+                    }
                   })
                   .finally(() => {
                     setIsLoading(false);
@@ -94,6 +102,7 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Searching for photos and videos...</div>
         </div>
       )}
+      <MessageModal title="Error" description={errorMessage} close="Close" isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
