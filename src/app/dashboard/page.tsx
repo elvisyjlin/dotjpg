@@ -144,12 +144,15 @@ const PostGridView: FC<PostGridViewProps> = ({ posts }) => {
   );
 }
 
-async function getData(start_date?: string): Promise<Post[]> {
-  let url = `${API_URL}/feeds`;
+async function getData(start_date?: string, key?: string): Promise<Post[]> {
+  const url = new URL(`${API_URL}/feeds`);
   if (start_date) {
-    url += `?start_date=${start_date}`;
+    url.searchParams.append("start_date", start_date);
   }
-  return fetch(url)
+  if (key) {
+    url.searchParams.append("key", key);
+  }
+  return fetch(url.toString())
     .then((res) => res.json())
     .then((data) => data["result"]);
   // return mockFeeds;
@@ -158,11 +161,12 @@ async function getData(start_date?: string): Promise<Post[]> {
 type Props = {
   searchParams?: {
     start_date?: string;
+    key?: string;
   };
 };
 
 export default async function Dashboard(params: Props) {
-  const posts = await getData(params.searchParams?.start_date);
+  const posts = await getData(params.searchParams?.start_date, params.searchParams?.key);
 
   return (
     <main>
