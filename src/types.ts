@@ -31,9 +31,9 @@ type ThreadsImage = {
     image_versions2: {
         candidates: {
             url: string;
-            width: number;
-            height: number;
-            "__typename": string;
+            width?: number;
+            height?: number;
+            "__typename"?: string;
         }[];
     };
 };
@@ -51,9 +51,9 @@ type ThreadsVideo = {
     image_versions2: {
         candidates: {
             url: string;
-            width: number;
-            height: number;
-            "__typename": string;
+            width?: number;
+            height?: number;
+            "__typename"?: string;
         }[];
     };
 };
@@ -88,8 +88,10 @@ type TwitterVideo = {
     };
     additional_media_info: any;
     video_info: {
+        duration_millis: number;
+        aspect_ratio: number[];
         variants: {
-            bitrate: number;
+            bitrate?: number;
             content_type: string;
             url: string;
         }[];
@@ -99,3 +101,32 @@ type TwitterVideo = {
 type TwitterMedia = TwitterPhoto | TwitterVideo;
 
 type Media = InstagramMedia | ThreadsMedia | TwitterMedia;
+
+interface BasePost {
+    updated_at: string;
+    platform: string;
+    media_source: (Media | null)[];
+}
+
+interface TwitterPost extends BasePost {
+    platform: "twitter";
+    user: string;
+    tweet_id: string;
+    media_source: TwitterMedia[];
+};
+
+interface InstagramPost extends BasePost {
+    platform: "instagram";
+    shortcode: string;
+    media_source: InstagramMedia[];
+};
+
+interface ThreadsPost extends BasePost {
+    platform: "threads";
+    user: string;
+    code: string;
+    post_id: string;
+    media_source: ThreadsMedia[];
+};
+
+type Post = TwitterPost | InstagramPost | ThreadsPost;

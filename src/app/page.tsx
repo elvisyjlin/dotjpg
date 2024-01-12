@@ -1,12 +1,12 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { SearchSection } from "@/components/sections";
+import { Hero } from "@/components/hero";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
-      <SearchSection />
+      <Hero />
       <Footer />
     </main>
   )

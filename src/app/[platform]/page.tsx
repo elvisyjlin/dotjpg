@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { SearchSection } from "@/components/sections";
+import { Hero } from "@/components/hero";
 
 export const dynamicParams = false;
 
@@ -21,7 +21,7 @@ export default function Downloader({ params }: Props) {
   return (
     <main>
       <Navbar />
-      <SearchSection selectedPlatform={platform} />
+      <Hero selectedPlatform={platform} />
       <Footer />
     </main>
   )

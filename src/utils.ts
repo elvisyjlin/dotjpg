@@ -42,22 +42,22 @@ export const findHighestQualityInstagramDisplayResource = (item: InstagramMedia)
 export const findHighestQualityThreadsImage = (item: ThreadsImage | ThreadsVideo) => {
     const candidates = item.image_versions2.candidates;
     let best = candidates[0];
-    let resolution = 0;
-    for (let i = 0; i < candidates.length; i++) {
-        const candidate = candidates[i];
-        if (candidate.width && candidate.height) {
-            const newResolution = candidate.width * candidate.height;
-            if (newResolution > resolution) {
-                best = candidate;
-                resolution = newResolution;
-            }
-        }
-    }
-    if (!best.width || !best.height) {
-        // best will be the first candidate if none of them have width or height
-        best.width = item.original_width;
-        best.height = item.original_height;
-    }
+    // let resolution = 0;
+    // for (let i = 0; i < candidates.length; i++) {
+    //     const candidate = candidates[i];
+    //     if (candidate.width && candidate.height) {
+    //         const newResolution = candidate.width * candidate.height;
+    //         if (newResolution > resolution) {
+    //             best = candidate;
+    //             resolution = newResolution;
+    //         }
+    //     }
+    // }
+    // if (!best.width || !best.height) {
+    //     // best will be the first candidate if none of them have width or height
+    //     best.width = item.original_width;
+    //     best.height = item.original_height;
+    // }
     return best;
 };
 
