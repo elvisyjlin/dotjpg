@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.1.5] - 2024-01-12
+
+- Dashboard view shows cached results.
+- Result view shows cached media.
+- Error message pop-up modal.
+- Active tabs are marked with colors.
+
 ## [0.1.4] - 2024-01-07
 
 - Google Analytics.
