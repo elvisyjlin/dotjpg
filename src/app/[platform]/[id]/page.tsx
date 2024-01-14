@@ -5,6 +5,8 @@ import { capitalize } from "@/utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export const revalidate = 86400;  // revalidate at most every day
+
 async function getData(platform: string, id: string): Promise<Post> {
   const url = `${API_URL}/results/${platform}/${id}`;
   return fetch(url)

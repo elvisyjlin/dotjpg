@@ -7,6 +7,8 @@ import { FC } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export const dynamic = "force-dynamic";  // always fetch data
+
 const getPostCoverPhotoProps = (post: Post) => {
   if (post.media_source[0]) {
     if (post.platform === "instagram") {
