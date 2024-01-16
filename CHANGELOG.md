@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.1.6] - 2024-01-16
+
+- Tutorial section.
+- FAQ section.
+- Press enter to download.
+- Disable download button when the page is fetching media.
+- Back button brings user to the previous page from the result page.
+
 ## [0.1.5] - 2024-01-12
 
 - Dashboard view shows cached results.
