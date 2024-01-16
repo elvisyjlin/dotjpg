@@ -92,9 +92,11 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
               >Paste</button>
             </div>
             <input
-              className="text-white bg-slate-400 hover:bg-slate-500 rounded-md px-4 p-2 hover:cursor-pointer"
+              className="text-white bg-slate-400 hover:bg-slate-500 rounded-md px-4 p-2 hover:cursor-pointer
+              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-400 disabled:hover:cursor-not-allowed"
               type="submit"
               value="Download"
+              disabled={isLoading}
             />
           </form>
         </div>
