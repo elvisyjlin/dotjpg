@@ -12,7 +12,7 @@ type HeroProps = {
   selectedPlatform?: string;
 }
 
-export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
+const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +20,7 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
 
   const title = selectedPlatform ? `${capitalize(selectedPlatform)} Downloader` : ".jpg";
   const description = selectedPlatform ? `Download ${capitalize(selectedPlatform)} photos and videos` : "Download photos and videos";
+  const placeholder = selectedPlatform ? `Paste the ${capitalize(selectedPlatform)} link here` : "Paste the link here";
 
   return (
     <div className="flex flex-col">
@@ -53,7 +54,7 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
               <input
                 className="border border-slate-300 rounded-md px-4 py-2 w-full sm:w-[400px]"
                 type="text"
-                placeholder="Paste the URL here"
+                placeholder={placeholder}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
@@ -106,3 +107,5 @@ export const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
     </div>
   );
 };
+
+export default Hero;
