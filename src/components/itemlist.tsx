@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { FC } from "react";
 
@@ -124,6 +126,10 @@ const ItemList: FC<ItemListProps> = ({ items }) => {
       <ul className="flex flex-col gap-4 items-center">{items.map((item, index) => (
         <ItemCard key={index} item={item} />
       ))}</ul>
+      <button
+        className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
+        onClick={() => history.back()}
+      >Back</button>
     </div>
   );
 };
