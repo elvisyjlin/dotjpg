@@ -88,7 +88,8 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
               <button
                 className="absolute top-1.5 right-2 text-white bg-slate-400 hover:bg-slate-500 border 
                   border-slate-400 rounded-md px-2 p-1 text-sm"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   navigator.clipboard.readText()
                     .then((text) => setInput(text));
                 }}
