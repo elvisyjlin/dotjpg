@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.1.7] - 2024-01-31
+
+- Item card shows unoptimized image.
+- Fix bug submitting before pasting url.
+- Improve loading.
+
 ## [0.1.6] - 2024-01-16
 
 - Tutorial section.

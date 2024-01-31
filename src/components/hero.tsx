@@ -15,6 +15,7 @@ type HeroProps = {
 const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -27,6 +28,7 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
     const url = selectedPlatform ? new URL(API_URL + "/" + selectedPlatform) : new URL(API_URL + "/auto");
     url.searchParams.append("url", input);
     setIsLoading(true);
+    setIsRedirecting(false);
     fetch(url.toString())
       .then((res) => {
         console.log(res);
@@ -39,6 +41,7 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           setIsOpen(true);
         } else {
           window.location.href = data["result"]["result_url"];
+          setIsRedirecting(true);
         }
       })
       .finally(() => {
@@ -85,7 +88,8 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
               <button
                 className="absolute top-1.5 right-2 text-white bg-slate-400 hover:bg-slate-500 border 
                   border-slate-400 rounded-md px-2 p-1 text-sm"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   navigator.clipboard.readText()
                     .then((text) => setInput(text));
                 }}
@@ -101,12 +105,12 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           </form>
         </div>
       </div>
-      {isLoading && (
+      {(isLoading || isRedirecting) && (
         <div className="mt-4 container mx-auto flex flex-col gap-2 sm:gap-3 items-center">
           <div className="w-[32px] sm:w-[48px]">
             <Image className="mt-8" src="/mona-loading-default-c3c7aad1282f.gif" alt="Loading" width={384} height={384} />
           </div>
-          <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Searching for photos and videos...</div>
+          <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Processing your request...</div>
         </div>
       )}
       <MessageModal title="Error" description={errorMessage} close="Close" isOpen={isOpen} setIsOpen={setIsOpen} />
