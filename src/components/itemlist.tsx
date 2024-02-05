@@ -20,7 +20,7 @@ const getPreviewProps = (item: Media) => {
   if (isInstagramImage(item)) {
     const resource = findHighestQualityInstagramDisplayResource(item);
     return {
-      src: resource.src,  // TODO: get the highest quality
+      src: "/api/proxy/instagram/" + resource.src.replace("https://", ""),  // TODO: get the highest quality
       url: resource.src,
       width: resource.config_width,
       height: resource.config_height,
@@ -28,7 +28,7 @@ const getPreviewProps = (item: Media) => {
   } else if (isInstagramVideo(item)) {
     const resource = findHighestQualityInstagramDisplayResource(item);
     return {
-      src: resource.src,
+      src: "/api/proxy/instagram/" + resource.src.replace("https://", ""),
       url: item.video_url,
       width: resource.config_width,
       height: resource.config_height,
@@ -36,7 +36,7 @@ const getPreviewProps = (item: Media) => {
   } else if (isThreadsImage(item)) {
     const candidate = findHighestQualityThreadsImage(item);
     return {
-      src: candidate.url,
+      src: "/api/proxy/instagram/" + candidate.url.replace("https://", ""),
       url: candidate.url,
       width: candidate.width,
       height: candidate.height,
@@ -45,7 +45,7 @@ const getPreviewProps = (item: Media) => {
     const imageCandidate = findHighestQualityThreadsImage(item);
     const videoCandidate = findHighestQualityThreadsVideo(item);
     return {
-      src: imageCandidate.url,
+      src: "/api/proxy/instagram/" + imageCandidate.url.replace("https://", ""),
       url: videoCandidate.url,
       width: imageCandidate.width,
       height: imageCandidate.height,
@@ -86,6 +86,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
           height={height}
           alt="Item Card"
           style={{ objectFit: "contain" }}
+          crossOrigin="anonymous"
           unoptimized
         />
       ) : (
@@ -102,6 +103,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
           height={height}
           alt="Item Card"
           style={{ objectFit: "contain" }}
+          crossOrigin="anonymous"
           unoptimized
         />
       )}
