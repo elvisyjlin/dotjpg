@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.8] - 2024-02-05
+
+- Use proxy for Instagram and Threads image display.
+- Fix CORS image issue.
+
 ## [0.1.7] - 2024-01-31
 
 - Item card shows unoptimized image.
