@@ -8,6 +8,10 @@ import MessageModal from "./modal";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+const getTabClassName = (active: boolean) => {
+  return `grow text-center px-2 sm:px-4 py-1 ${active ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`;
+}
+
 type HeroProps = {
   selectedPlatform?: string;
 }
@@ -47,7 +51,7 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
   return (
     <div className="flex flex-col">
@@ -57,19 +61,19 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
             text-white bg-slate-300 text-sm sm:text-base overflow-hidden">
             <li className="flex items-center justify-center">
               <Link
-                className={`grow text-center px-2 sm:px-4 py-1 ${selectedPlatform === "twitter" ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`}
+                className={getTabClassName(selectedPlatform === "twitter")}
                 href="/twitter"
               >Twitter</Link>
             </li>
             <li className="flex items-center justify-center">
               <Link
-                className={`grow text-center px-2 sm:px-4 py-1 ${selectedPlatform === "instagram" ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`}
+                className={getTabClassName(selectedPlatform === "instagram")}
                 href="/instagram"
               >Instagram</Link>
             </li>
             <li className="flex items-center justify-center ">
               <Link
-                className={`grow text-center px-2 sm:px-4 py-1 ${selectedPlatform === "threads" ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`}
+                className={getTabClassName(selectedPlatform === "threads")}
                 href="/threads"
               >Threads</Link>
             </li>
