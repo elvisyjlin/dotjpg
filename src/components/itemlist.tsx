@@ -132,8 +132,8 @@ const ItemList: FC<ItemListProps> = ({ items }) => {
       ))}</ul>
       <button
         className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
-        onClick={() => history.back()}
-      >Back</button>
+        onClick={() => window.location.replace("/")}
+      >Download Another</button>
     </div>
   );
 };
