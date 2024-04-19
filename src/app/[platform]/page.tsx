@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import FAQ from "@/components/faq";
 import Tutorial from "@/components/tutorial";
+import Features from "@/components/features";
 
 export const dynamicParams = false;
 
@@ -24,6 +25,7 @@ export default function Downloader({ params }: Props) {
     <main>
       <Navbar />
       <Hero selectedPlatform={platform} />
+      <Features selectedPlatform={platform} />
       <Tutorial />
       <FAQ platform={platform} />
       <Footer />

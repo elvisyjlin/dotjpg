@@ -3,14 +3,14 @@ import { FC } from "react";
 const FAQData = [
   {
     question: "What is \".jpg\"?",
-    answer: "\".jpg\" (pronounced as \"dotjpg\") is a downloader for Twitter, Instagram and Threads. It may support more platforms in the future."
+    answer: "\".jpg\" (pronounced as \"dot jpeg\") is a downloader for Twitter, Instagram and Threads. We may support more platforms in the future."
   },
   {
     question: "How to use this tool?",
     answer: "Just paste the link of the post you want to download, and click \"Download\"."
   },
   {
-    question: "How to download high quality photos or videos?",
+    question: "How to download high quality media files?",
     answer: "\".jpg\" automatically selects the highest quality available. They are displayed directly on the result page, so you can save them easily.",
   },
 ];
