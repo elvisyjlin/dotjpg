@@ -5,7 +5,7 @@ import { InstagramLogo, ThreadsLogo, XLogo } from "@phosphor-icons/react";
 import Link from "next/link";
 
 const getLogoClassName = (active: boolean) => {
-    return `rounded-lg p-0.5 shadow ${active ? "text-[#313131] cursor-default" : "hover:bg-slate-100"}`;
+    return `rounded-lg p-0.5 shadow transition-colors ${active ? "text-[#313131] cursor-default" : "hover:bg-slate-100"}`;
 }
 
 type FeaturesProps = {

@@ -118,7 +118,7 @@ const PostCardContent: FC<PostCardProps> = ({ post }) => {
 const PostCard: FC<PostCardProps> = ({ post }) => {
   const resultUrl = getResultUrl(post);
   return (
-    <li className={`p-4 rounded-lg border ${resultUrl ? "hover:bg-slate-50" : ""}`}>
+    <li className={`p-4 rounded-lg border transition-colors ${resultUrl ? "hover:bg-slate-50" : ""}`}>
       {resultUrl ? (
         <Link
           href={resultUrl}

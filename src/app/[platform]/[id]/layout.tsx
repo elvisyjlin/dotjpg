@@ -4,7 +4,7 @@ import GoogleAnalytics from '@/components/googleanalytics';
 import { capitalize } from '@/utils';
 import '../../globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 type Props = {
   params: { platform: string };

@@ -109,7 +109,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
       )}
       <div className="text-slate-500 text-xs">{width}x{height}</div>
       <a
-        className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
+        className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 transition-colors text-xs rounded-md"
         href={url}
         target="_blank"
       >Open {isImage ? "photo" : "video"}</a>
@@ -131,7 +131,7 @@ const ItemList: FC<ItemListProps> = ({ items }) => {
         <ItemCard key={index} item={item} />
       ))}</ul>
       <button
-        className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 text-xs rounded-md"
+        className="p-1.5 text-white bg-slate-400 hover:bg-slate-500 transition-colors text-xs rounded-md"
         onClick={() => window.location.replace("/")}
       >Download Another</button>
     </div>
