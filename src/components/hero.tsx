@@ -10,7 +10,7 @@ import { X } from "@phosphor-icons/react";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const getTabClassName = (active: boolean) => {
-  return `grow text-center px-2 sm:px-4 py-1 ${active ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`;
+  return `grow text-center px-2 sm:px-4 py-1 transition-colors ${active ? "bg-[#313131] cursor-default" : "hover:bg-slate-400"}`;
 }
 
 type HeroProps = {
@@ -20,7 +20,6 @@ type HeroProps = {
 const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -33,7 +32,6 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
     const url = selectedPlatform ? new URL(API_URL + "/" + selectedPlatform) : new URL(API_URL + "/auto");
     url.searchParams.append("url", input);
     setIsLoading(true);
-    setIsRedirecting(false);
     fetch(url.toString())
       .then((res) => {
         console.log(res);
@@ -46,7 +44,6 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           setIsOpen(true);
         } else {
           window.location.href = data["result"]["result_url"];
-          setIsRedirecting(true);
         }
       })
       .finally(() => {
@@ -84,51 +81,58 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
           <form className="mt-2 flex flex-col sm:flex-row gap-2 w-full sm:w-auto" onSubmit={handleSubmit}>
             <div className="relative overflow-hidden">
               <input
-                className="px-4 py-2 w-full border border-slate-300 rounded-md sm:w-[400px]"
+                className="px-4 py-2 w-full border border-slate-300 rounded-md sm:w-[400px] disabled:text-slate-400 disabled:bg-white"
                 type="text"
                 placeholder={placeholder}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                disabled={isLoading}
               />
               <button
                 className={`absolute top-1.5 right-[4.35rem] text-slate-400 bg-white border border-slate-400 
-                  hover:text-slate-800 hover:bg-slate-50 hover:border-slate-800 rounded-md text-sm p-1.5
+                  hover:text-slate-800 hover:bg-slate-50 hover:border-slate-800 rounded-md text-sm p-1.5 transition-colors
+                  disabled:opacity-50 disabled:hover:text-slate-400 disabled:hover:bg-white disabled:hover:border-slate-400 disabled:hover:cursor-not-allowed
                   transition-transform ${input === "" ? "scale-0" : "scale-100"}`}
                 onClick={(e) => {
                   e.preventDefault();
                   setInput("");
                 }}
+                disabled={isLoading}
               >
                 <X size={16} />
               </button>
               <button
-                className="absolute top-1.5 right-2 text-white bg-slate-400 hover:bg-slate-500 border 
-                  border-slate-400 rounded-md px-2 p-1 text-sm"
+                className="absolute top-1.5 right-2 text-white bg-slate-400 hover:bg-slate-500
+                  disabled:opacity-50 disabled:hover:bg-slate-400 disabled:hover:cursor-not-allowed
+                  border border-slate-400 rounded-md px-2 p-1 text-sm transition-colors"
                 onClick={(e) => {
                   e.preventDefault();
                   navigator.clipboard.readText()
                     .then((text) => setInput(text));
                 }}
+                disabled={isLoading}
               >Paste</button>
             </div>
-            <input
-              className="text-white bg-slate-400 hover:bg-slate-500 rounded-md px-4 p-2 hover:cursor-pointer
-              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-400 disabled:hover:cursor-not-allowed"
+            <button
+              className={`${isLoading ? "px-4 py-0" : "px-4 py-2"} h-[42px] min-w-[108px] 
+                text-white bg-slate-400 hover:bg-slate-500 rounded-md hover:cursor-pointer transition-colors
+                disabled:opacity-50 disabled:hover:bg-slate-400 disabled:hover:cursor-not-allowed
+                flex justify-center items-center gap-2`}
               type="submit"
-              value="Download"
               disabled={isLoading}
-            />
+            >
+              {isLoading ? (
+                <>
+                  <div className="w-[28px]">
+                    <Image src="/mona-loading-default-c3c7aad1282f.gif" alt="Loading" width={384} height={384} />
+                  </div>
+                  <div className="text-gray-700 block sm:hidden">Processing your request...</div>
+                </>
+              ) : "Download"}
+            </button>
           </form>
         </div>
       </div>
-      {(isLoading || isRedirecting) && (
-        <div className="mt-4 container mx-auto flex flex-col gap-2 sm:gap-3 items-center">
-          <div className="w-[32px] sm:w-[48px]">
-            <Image className="mt-8" src="/mona-loading-default-c3c7aad1282f.gif" alt="Loading" width={384} height={384} />
-          </div>
-          <div className="ml-3 mb-8 text-[#444d56] text-sm sm:text-base">Processing your request...</div>
-        </div>
-      )}
       <MessageModal title="Error" description={errorMessage} close="Close" isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
