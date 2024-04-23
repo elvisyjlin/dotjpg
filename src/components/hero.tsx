@@ -91,8 +91,9 @@ const Hero: FC<HeroProps> = ({ selectedPlatform }) => {
                 onChange={(e) => setInput(e.target.value)}
               />
               <button
-                className="absolute top-1.5 right-[4.1rem] text-slate-400 bg-white border border-slate-400 
-                  hover:text-slate-800 hover:border-slate-800 rounded-md text-sm p-1.5"
+                className={`absolute top-1.5 right-[4.35rem] text-slate-400 bg-white border border-slate-400 
+                  hover:text-slate-800 hover:bg-slate-50 hover:border-slate-800 rounded-md text-sm p-1.5
+                  transition-transform ${input === "" ? "scale-0" : "scale-100"}`}
                 onClick={(e) => {
                   e.preventDefault();
                   setInput("");
